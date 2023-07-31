@@ -7,6 +7,7 @@ import { createServer } from 'node:http'
 import createHTML from './lib/static.js'
 import parseParams from './lib/parseParams.js'
 import gracefulShutdown from './lib/gracefulShutdown.js'
+import getConfig from './lib/getConfig.js'
 
 const DATA_URL = process.env.CONFIG_DATA_URL
 const SERVER_URL = process.env.SERVER_URL || 'localhost'
@@ -14,9 +15,7 @@ const SERVER_PORT = process.env.SERVER_PORT || '8080'
 const SERVER_ADDRESS = `${SERVER_URL}:${SERVER_PORT}`
 
 if (!DATA_URL) throw new Error('No config data url specified')
-const data = await fetch(DATA_URL, { method: 'POST' })
-  .then((data) => data.json())
-
+const data = await getConfig(url)
 const utils = phoneNumberInitializer(data)
 const html = createHTML(SERVER_ADDRESS)
 
