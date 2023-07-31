@@ -10,6 +10,7 @@ import createHTML from './static.js'
 const DATA_URL = process.env.CONFIG_DATA_URL
 const SERVER_URL = process.env.SERVER_URL || 'localhost'
 const SERVER_PORT = process.env.SERVER_PORT || '8080'
+const SERVER_ADDRESS = `${SERVER_URL}:${SERVER_PORT}`
 
 function onClose(error) {
   if (error) console.error(error)
