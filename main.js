@@ -10,6 +10,16 @@ const DATA_URL = process.env.CONFIG_DATA_URL
 const SERVER_URL = process.env.SERVER_URL || 'localhost'
 const SERVER_PORT = process.env.SERVER_PORT || '8080'
 
+function onClose() {
+  console.log('terminating...')
+  setTimeout(() => server.close(), 1000)
+}
+
+process.once('SIGINT', onClose)
+process.once('SIGTERM', onClose)
+process.once('unhandledRejection', onClose)
+process.once('uncaughtException', onClose)
+
 if (!DATA_URL) throw new Error('No config data url specified')
 const data = await fetch(DATA_URL, { method: 'POST' })
   .then((data) => data.json())
