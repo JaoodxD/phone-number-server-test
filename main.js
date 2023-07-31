@@ -15,7 +15,7 @@ const SERVER_PORT = process.env.SERVER_PORT || '8080'
 const SERVER_ADDRESS = `${SERVER_URL}:${SERVER_PORT}`
 
 if (!DATA_URL) throw new Error('No config data url specified')
-const data = await getConfig(url)
+const data = await getConfig(DATA_URL)
 const utils = phoneNumberInitializer(data)
 const html = createHTML(SERVER_ADDRESS)
 
