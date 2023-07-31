@@ -39,6 +39,11 @@ function parseParams(input) {
 const server = createServer((req, res) => {
   const { url } = req
   const query = url.slice(2)
+  if (query === '') {
+    const file = createReadStream('./index.html')
+    return file.pipe(res)
+  }
+  const decoded = decodeURIComponent(query)
   const { phone, ISO } = parseParams(decoded)
   console.log({ url, query, phone, ISO })
   if (!phone) return res.end('No phone provided')
