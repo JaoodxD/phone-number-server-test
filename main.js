@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 import { config } from 'dotenv'
 config()
@@ -6,22 +6,12 @@ import { config as phoneNumberInitializer } from '@jaood/phone-numbers'
 import { createServer } from 'node:http'
 import createHTML from './lib/static.js'
 import parseParams from './lib/parseParams.js'
+import gracefulShutdown from './lib/gracefulShutdown.js'
 
 const DATA_URL = process.env.CONFIG_DATA_URL
 const SERVER_URL = process.env.SERVER_URL || 'localhost'
 const SERVER_PORT = process.env.SERVER_PORT || '8080'
 const SERVER_ADDRESS = `${SERVER_URL}:${SERVER_PORT}`
-
-function onClose(error) {
-  if (error) console.error(error)
-  console.log('terminating...')
-  setTimeout(() => server.close(), 1000)
-}
-
-process.once('SIGINT', onClose)
-process.once('SIGTERM', onClose)
-process.once('unhandledRejection', onClose)
-process.once('uncaughtException', onClose)
 
 if (!DATA_URL) throw new Error('No config data url specified')
 const data = await fetch(DATA_URL, { method: 'POST' })
@@ -51,5 +41,7 @@ const server = createServer((req, res) => {
   }
   res.end(response)
 })
+
+gracefulShutdown(() => server.close())
 
 server.listen(SERVER_PORT)
