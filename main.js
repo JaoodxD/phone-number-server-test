@@ -5,6 +5,7 @@ config()
 import { config as phoneNumberInitializer } from '@jaood/phone-numbers'
 import { createServer } from 'node:http'
 import createHTML from './static.js'
+import parseParams from './lib/parseParams.js'
 
 const DATA_URL = process.env.CONFIG_DATA_URL
 const SERVER_URL = process.env.SERVER_URL || 'localhost'
@@ -28,16 +29,6 @@ const data = await fetch(DATA_URL, { method: 'POST' })
 
 const utils = phoneNumberInitializer(data)
 const html = createHTML(SERVER_ADDRESS)
-
-function parseParams(input) {
-  const params = input.split('&')
-  const obj = {}
-  for (const param of params) {
-    const [key, value] = param.split('=')
-    obj[key] = value
-  }
-  return obj
-}
 
 const server = createServer((req, res) => {
   const { url } = req
