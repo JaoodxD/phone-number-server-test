@@ -31,7 +31,7 @@ export default function createHTML(url) {
       async function makeRequest() {
         const phone = phoneInput.value
         const country = countryInput.value
-        const request = \`\${url} /?phone=\${phone}&ISO=\${country}\`
+        const request = \`\${url}/?phone=\${phone}&ISO=\${country}\`
   const result = await fetch(request).then((data) => data.text())
   outputLabel.textContent = result
 }
