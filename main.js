@@ -4,7 +4,7 @@ import { config } from 'dotenv'
 config()
 import { config as phoneNumberInitializer } from '@jaood/phone-numbers'
 import { createServer } from 'node:http'
-import createHTML from './static.js'
+import createHTML from './lib/static.js'
 import parseParams from './lib/parseParams.js'
 
 const DATA_URL = process.env.CONFIG_DATA_URL
