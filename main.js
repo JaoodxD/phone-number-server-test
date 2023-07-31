@@ -1,13 +1,13 @@
 'use strict'
 
 import { config } from 'dotenv'
-config()
 import { config as phoneNumberInitializer } from '@jaood/phone-numbers'
 import { createServer } from 'node:http'
 import createHTML from './lib/static.js'
 import parseParams from './lib/parseParams.js'
 import gracefulShutdown from './lib/gracefulShutdown.js'
 import getConfig from './lib/getConfig.js'
+config()
 
 const DATA_URL = process.env.CONFIG_DATA_URL
 const SERVER_URL = process.env.SERVER_URL || 'localhost'
@@ -20,8 +20,8 @@ const utils = phoneNumberInitializer(data)
 const html = createHTML(SERVER_ADDRESS)
 
 const routes = {
-  'static': () => html,
-  'libExec': (query) => {
+  static: () => html,
+  libExec: (query) => {
     const decoded = decodeURIComponent(query)
     const { phone, ISO } = parseParams(decoded)
     if (!phone) return 'No phone provided'
@@ -42,7 +42,7 @@ const server = createServer((req, res) => {
   console.log({ url })
   const query = url.slice(2)
   const handler = query === '' ? routes.static : routes.libExec
-  const response = handler(query);
+  const response = handler(query)
   res.end(response)
 })
 
